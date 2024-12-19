@@ -1,0 +1,12 @@
+@if (dogsSignal()?.data?.length) {
+  @for (dog of dogsSignal()?.data; track dog?.id;) {
+    <div>Dog's name {{dog.name}}</div>
+    <div>Dog's age {{dog.age}}</div>
+    <div>Dog's breed {{dog.breed}}</div>
+    ___
+  }
+}
+
+@if (dogsSignal()?.isLoading) {
+  <div>Loading...</div>
+}
