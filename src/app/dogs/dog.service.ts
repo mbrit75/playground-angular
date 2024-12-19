@@ -1,5 +1,5 @@
 import {inject, Injectable} from "@angular/core";
-import {Dog} from "./dog.model";
+import {Dog} from "./models/dog.model";
 import {delay, of, take} from "rxjs";
 import {DogSignals, DogStore} from "./dog.store";
 
@@ -45,7 +45,7 @@ export class DogService {
   }
 
   requestNewDogs() {
-    const dogs = [...this.fakeDogs.slice(), { id: 3, name: 'Lassie', age: 1, breed: "collie" }];
+    const dogs = [...this.fakeDogs.slice(), {id: 3, name: 'Lassie', age: 1, breed: "collie"}];
     this.requestDogs(dogs);
   }
 

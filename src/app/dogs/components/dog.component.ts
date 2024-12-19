@@ -1,7 +1,7 @@
 import {Component, inject, signal} from "@angular/core";
-import {DogSignals, DogStore} from "./dog.store";
-import {DogService} from "./dog.service";
-import {Dog} from "@app/dogs/dog.model";
+import {DogSignals, DogStore} from "../dog.store";
+import {DogService} from "../dog.service";
+import {Dog} from "@app/dogs/models/dog.model";
 
 @Component({
   selector: 'app-dog',
