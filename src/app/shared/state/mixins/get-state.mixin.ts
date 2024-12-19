@@ -5,8 +5,8 @@ import {WritableSignal} from "@angular/core";
 
 export function GetMixin<TBase extends Constructor<HasSignalState>>(Base: TBase) {
   return class extends Base {
-    get<T>() {
-      return this.signalState as WritableSignal<ModelWrapper<T>>;
+    get<T>(key: string) {
+      return this.signalsState.get(key) as WritableSignal<ModelWrapper<T>>;
     }
   };
 }

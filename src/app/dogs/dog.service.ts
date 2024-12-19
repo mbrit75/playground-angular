@@ -1,7 +1,7 @@
 import {inject, Injectable} from "@angular/core";
 import {Dog} from "./dog.model";
 import {delay, of, take} from "rxjs";
-import {DogStore} from "./dog.store";
+import {DogSignals, DogStore} from "./dog.store";
 
 @Injectable({
   providedIn: 'root'
@@ -36,11 +36,11 @@ export class DogService {
   // public API
   requestDogs(fakeDogs?: Dog[]) {
     // this is just a fake example, use httpClient in real-world instead
-    this.dogStore.update({isLoading: true});
+    this.dogStore.update(DogSignals.DOGS, {isLoading: true});
     const dogs = fakeDogs ?? this.fakeDogs;
 
     of(dogs).pipe(delay(2000), take(1)).subscribe(dogs => {
-      this.dogStore.update({ data: dogs, isLoading: false });
+      this.dogStore.update(DogSignals.DOGS, { data: dogs, isLoading: false });
     });
   }
 

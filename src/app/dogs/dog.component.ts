@@ -1,5 +1,5 @@
 import {Component, inject, signal} from "@angular/core";
-import {DogStore} from "./dog.store";
+import {DogSignals, DogStore} from "./dog.store";
 import {DogService} from "./dog.service";
 import {Dog} from "@app/dogs/dog.model";
 
@@ -14,7 +14,7 @@ export class DogComponent {
   private readonly dogService = inject(DogService);
 
   // state
-  dogsSignal = this.dogStore.get<Dog[]>();
+  dogsSignal = this.dogStore.get<Dog[]>(DogSignals.DOGS);
 
   ngOnInit() {
     this.dogService.requestDogs();
