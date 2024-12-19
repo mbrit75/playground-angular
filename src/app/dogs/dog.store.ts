@@ -1,8 +1,6 @@
 import {Injectable, signal} from "@angular/core";
 import { ModelWrapper } from "@app/shared";
 import {GetMixin, SignalState, UpdateMixin} from "@app/shared/state";
-import { Dog } from "./dog.model";
-
 
 @Injectable({
   providedIn: 'root'

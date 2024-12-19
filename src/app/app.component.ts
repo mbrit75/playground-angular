@@ -4,7 +4,7 @@ import {DogComponent} from "./dogs";
 
 @Component({
     selector: 'app-root',
-    imports: [RouterOutlet, DogComponent],
+    imports: [RouterOutlet],
     templateUrl: './app.component.html',
     styleUrl: './app.component.css'
 })
