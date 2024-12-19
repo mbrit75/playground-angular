@@ -7,8 +7,11 @@ import {DogStore} from "./dog.store";
   providedIn: 'root'
 })
 export class DogService {
+
+  // dependencies
   private readonly dogStore = inject(DogStore);
 
+  // fake data
   private fakeDogs : Array<Dog> = [
     {
       id: 0,
@@ -30,6 +33,7 @@ export class DogService {
     }
   ];
 
+  // public API
   requestDogs(fakeDogs?: Dog[]) {
     // this is just a fake example, use httpClient in real-world instead
     this.dogStore.update({isLoading: true});

@@ -1,24 +1,9 @@
-import {Injectable, signal} from "@angular/core";
-import {Dog} from "./dog.model";
-import {ModelWrapper} from "@app/shared";
+import {Injectable} from "@angular/core";
+import {GetMixin, SignalState, UpdateMixin} from "@app/shared/state";
+
 
 @Injectable({
   providedIn: 'root'
 })
-export class DogStore {
+export class DogStore extends GetMixin(UpdateMixin(SignalState)) {}
 
-  private dogsSignal = signal<ModelWrapper<Dog[]>>({});
-
-  set(dogsWrapper: ModelWrapper<Dog[]>) {
-    this.dogsSignal.set(dogsWrapper);
-  }
-
-  update(dogsWrapper: ModelWrapper<Dog[]>) {
-    this.dogsSignal.update(d => ({...d, ...dogsWrapper}));
-  }
-
-  get() {
-    return this.dogsSignal;
-  }
-
-}
