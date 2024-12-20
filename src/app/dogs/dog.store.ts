@@ -1,5 +1,4 @@
-import {Injectable, signal} from "@angular/core";
-import { ModelWrapper } from "@app/shared";
+import {Injectable} from "@angular/core";
 import {GetMixin, SignalState, UpdateMixin} from "@app/shared/state";
 
 @Injectable({
@@ -8,9 +7,7 @@ import {GetMixin, SignalState, UpdateMixin} from "@app/shared/state";
 export class DogStore extends GetMixin(UpdateMixin(SignalState)) {
   constructor() {
     super();
-    Object.values(DogSignals).forEach(key => {
-      this.signalsState.set(key, signal<ModelWrapper<any>>({}));
-    });
+    this.initializeState(DogSignals);
   }
 }
 
