@@ -1,11 +1,15 @@
 import {Injectable} from "@angular/core";
-import {GetMixin, SignalState, UpdateMixin} from "@app/shared/state";
+import {createSignalState, GetMixin, UpdateMixin} from "@app/shared/state";
 
-@Injectable({
-  providedIn: 'root'
-})
-export class DogStore extends GetMixin(UpdateMixin(SignalState<DogSignals>)) {}
 
 export enum DogSignals {
   DOGS = 'dogs',
 }
+
+const DogSignalState = createSignalState(DogSignals);
+
+@Injectable({
+  providedIn: 'root'
+})
+export class DogStore extends GetMixin(UpdateMixin(DogSignalState)) { }
+

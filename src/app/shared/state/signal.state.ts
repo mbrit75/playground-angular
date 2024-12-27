@@ -1,19 +1,18 @@
-import {signal, WritableSignal} from "@angular/core";
-import {HasSignalState} from "@app/shared/state/signal-state.interface";
-import {ModelWrapper} from "@app/shared";
-import {DogSignals} from "@app/dogs/dog.store";
+import { signal, WritableSignal } from "@angular/core";
+import { HasSignalState } from "@app/shared/state/signal-state.interface";
+import { ModelWrapper } from "@app/shared";
 
-export class SignalState<T extends string | number> implements HasSignalState {
-  signalsState = new Map<string, WritableSignal<ModelWrapper<any>>>();
+export abstract class SignalState<TEnum extends { [key: string]: string | number}> implements HasSignalState  {
+  signalsState = new Map<string | number, WritableSignal<ModelWrapper<any>>>();
+  protected abstract storeEnum: TEnum;
 
-  constructor() {
-    this.initializeState(DogSignals);
+  protected constructor() {
+    this.initializeState();
   }
 
-  private initializeState = (storeEnum: any) => {
-    Object.values(DogSignals).forEach(key => {
+  private initializeState() {
+    Object.values(this.storeEnum).forEach(key => {
       this.signalsState.set(key, signal<ModelWrapper<any>>({}));
     });
-  };
-
+  }
 }
