@@ -6,6 +6,7 @@ import {Dog} from "@app/dogs/models/dog.model";
 @Component({
   selector: 'app-dog',
   templateUrl: './dog.component.html',
+  styleUrls: ['./dog.component.css']
 })
 export class DogComponent {
 

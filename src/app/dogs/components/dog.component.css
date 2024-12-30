@@ -1,0 +1,15 @@
+.dog-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dog-card {
+  border: 1px solid #ccc;
+  margin: 0.5rem;
+  padding: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /*justify-content: center;*/
+}
