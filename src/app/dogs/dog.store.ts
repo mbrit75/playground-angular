@@ -12,4 +12,3 @@ const DogSignalState = createSignalState(DogSignals);
   providedIn: 'root'
 })
 export class DogStore extends GetMixin(UpdateMixin(DogSignalState)) { }
-
