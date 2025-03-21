@@ -1,0 +1,24 @@
+<div class="dog-container">
+  @if (getDogsSignal().data?.length) {
+    @for (dog of getDogsSignal().data; track dog?.id;) {
+      <div class="dog-card"
+           [ngClass]="{ isSelected: selectedDogSignal().data?.name === dog.name}"
+           (click)="onCardClick($event, dog)">
+        <div>Dog's name {{dog.name}}</div>
+        <div>Dog's age {{dog.age}}</div>
+        <div>Dog's breed {{dog.breed}}</div>
+      </div>
+    }
+}
+
+@if (getDogsSignal().isLoading) {
+  <div>Loading...</div>
+}
+</div>
+
+@if (selectedDogSignal().data) {
+  <div>
+    <span>selected dog:</span>
+    <span> {{ selectedDogSignal().data?.name }}</span>
+  </div>
+}

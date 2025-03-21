@@ -1,15 +1,11 @@
-import {inject, Injectable} from "@angular/core";
-import {Dog} from "./models/dog.model";
-import {delay, of, take} from "rxjs";
-import {DogSignals, DogStore} from "./dog.store";
+import { Injectable} from "@angular/core";
+import { delay, of, take } from "rxjs";
+import {Dog} from "@app/core/dogs/models";
 
 @Injectable({
   providedIn: 'root'
 })
 export class DogService {
-
-  // dependencies
-  private readonly dogStore = inject(DogStore);
 
   // fake data
   private fakeDogs : Array<Dog> = [
@@ -35,18 +31,14 @@ export class DogService {
 
   // public API
   requestDogs(fakeDogs?: Dog[]) {
-    // this is just a fake example, use httpClient in real-world instead
-    this.dogStore.update(DogSignals.DOGS, {isLoading: true});
     const dogs = fakeDogs ?? this.fakeDogs;
 
-    of(dogs).pipe(delay(2000), take(1)).subscribe(dogs => {
-      this.dogStore.update(DogSignals.DOGS, { data: dogs, isLoading: false });
-    });
+    return of(dogs).pipe(delay(2000), take(1));
   }
 
   requestNewDogs() {
     const dogs = [...this.fakeDogs.slice(), {id: 3, name: 'Lassie', age: 1, breed: "collie"}];
-    this.requestDogs(dogs);
+    return this.requestDogs(dogs);
   }
 
 }
