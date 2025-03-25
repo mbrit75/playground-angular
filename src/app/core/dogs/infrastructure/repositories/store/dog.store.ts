@@ -19,7 +19,5 @@ export interface DogSignalData {
   providedIn: 'root'
 })
 export class DogStore extends BaseStore<typeof DogSignals, DogSignalData> {
-  constructor() {
-    super(DogSignals);
-  }
+  protected readonly storeEnum = DogSignals;
 }

@@ -10,7 +10,10 @@ export abstract class BaseStore<
 > {
   private readonly signalsState = new Map<keyof TEnum, WritableSignal<TData[keyof TEnum]>>();
 
-  protected constructor(protected readonly storeEnum: TEnum) {
+  // Each derived class must define this property
+  protected abstract readonly storeEnum: TEnum;
+
+  protected constructor() {
     this.initializeState();
   }
 

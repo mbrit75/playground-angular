@@ -19,7 +19,5 @@ export interface CatSignalData {
   providedIn: 'root'
 })
 export class CatStore extends BaseStore<typeof CatSignals, CatSignalData> {
-  constructor() {
-    super(CatSignals);
-  }
+  protected readonly storeEnum = CatSignals;
 }

@@ -1,6 +1,7 @@
 import {inject, Injectable} from "@angular/core";
-import {CatSignals, CatStore} from "@app/core/cats/infrastructure/repositories/store/cat.store";
 import {Cat} from "@app/core/cats/models";
+import {CatStore} from "@app/core/cats/infrastructure/repositories/store";
+import {CatSignals} from "@app/core/cats/infrastructure/repositories/store/cat.store";
 
 @Injectable({
   providedIn: 'root'
