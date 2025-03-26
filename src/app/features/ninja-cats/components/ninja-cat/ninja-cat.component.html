@@ -1,0 +1,14 @@
+<p>ninja-cat works!</p>
+
+<p>ninjaCats : {{ ninjaCats | json }}</p>
+<p>isLoading : {{ isLoading }}</p>
+<p>name : {{ name }}</p>
+
+<p>owner fullname : {{ name }}</p>
+<p>owner : {{ ninjaCatStore.owner() | json }}</p>
+<p>owner : {{ ninjaCatStore.owner.fullname()}}</p>
+<p>owner : {{ ninjaCatStore.owner.age()}}</p>
+
+<p>Youngest NinjaCat : {{ youngestNinjaCats | json}}</p>
+
+<button (click)="changeCatForOwner()">Change Ninja Cats for owner</button>
