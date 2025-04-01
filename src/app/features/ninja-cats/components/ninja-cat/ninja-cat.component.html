@@ -1,14 +1,99 @@
-<p>ninja-cat works!</p>
+@if(isLoading) {
+  <p>Loading...</p>
+}
+@else {
 
-<p>ninjaCats : {{ ninjaCats | json }}</p>
-<p>isLoading : {{ isLoading }}</p>
-<p>name : {{ name }}</p>
+  @if(ninjaCats.length){
+  <h2>
+    (NinjaCat) In brut With Getters :
+  </h2>
+  <p>ninjaCats : {{ ninjaCats | json }}</p>
+  <p>isLoading : {{ isLoading }}</p>
+  <p>Cat Number : {{ ninjaCatStore.ninjaCatsCount() }}</p>
+  }
 
-<p>owner fullname : {{ name }}</p>
-<p>owner : {{ ninjaCatStore.owner() | json }}</p>
-<p>owner : {{ ninjaCatStore.owner.fullname()}}</p>
-<p>owner : {{ ninjaCatStore.owner.age()}}</p>
 
-<p>Youngest NinjaCat : {{ youngestNinjaCats | json}}</p>
+  =======================================================
+  <div  class="ninja-container">
+    @if(ninjaCats.length){
 
-<button (click)="changeCatForOwner()">Change Ninja Cats for owner</button>
+    <div  class="ninja-cat-container">
+      <h2 class="ninja-cat-title">Ninja Cats</h2>
+      <table class="ninja-cat-table">
+        <thead>
+          <tr class="ninja-cat-header-row">
+            <th>Id</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Breed</th>
+            <th>Color</th>
+            <th>Personality</th>
+            <th>Weapon</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for(ninjaCat of ninjaCatStore.ninjaCats(); track ninjaCat.id ) {
+          <tr class="ninja-cat-row">
+            <td>{{ ninjaCat.id }}</td>
+            <td>{{ ninjaCat.name }}</td>
+            <td>{{ ninjaCat.age }}</td>
+            <td>{{ ninjaCat.breed }}</td>
+            <td>{{ ninjaCat.color }}</td>
+            <td>{{ ninjaCat.personality }}</td>
+            <td>{{ ninjaCat.weapon }}</td>
+            <td><button (click)="ninjaCatStore.deleteNinjaCat(ninjaCat.id)">Delete</button></td>
+          </tr>
+          }
+        </tbody>
+      </table>
+      <p>
+        <strong>Youngest NinjaCat : </strong>
+        <br/>
+        {{ youngestNinjaCats | json}}
+      </p>
+      <div class="action-owner-container">
+        <button (click)="changeNinjaCat()">Update NinjaCat Random</button>
+      </div>
+    </div>
+    }
+
+    @if(ninjaCatStore.owner()) {
+
+      <div  class="ninja-cat-container">
+        <h2 class="ninja-cat-title">Owner of NinjaCats</h2>
+        <table class="ninja-cat-table">
+          <thead>
+            <tr class="owner-header-row">
+              <th>Id</th>
+              <th>Fullname</th>
+              <th>Age</th>
+              <th>Ninja Cats</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="ninja-cat-row">
+              <td>{{ ninjaCatStore.owner.id() }}</td>
+              <td>{{ ninjaCatStore.owner.fullname()  }}</td>
+              <td>{{ ninjaCatStore.owner.age() }}</td>
+              <td>
+                <ul>
+                  @for(ninjaCat of ninjaCatStore.ninjaCatsNamesForOwner(); track ninjaCat.id ) {
+                    <li>{{ninjaCat.name}}</li>
+                  }
+                </ul>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+
+        <p>owner : {{ ninjaCatStore.owner() | json }}</p>
+
+        <div class="action-owner-container">
+          <button (click)="changeOwner()">Update Owner Random</button>
+        </div>
+      </div>
+    }
+</div>
+}

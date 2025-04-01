@@ -1,5 +1,5 @@
 import { Injectable} from "@angular/core";
-import { delay, of, take } from "rxjs";
+import { delay, Observable, of, take } from "rxjs";
 import { Cat } from "@app/core/cats/models";
 import { NinjaCat } from "@app/core/ninja-cats/models";
 
@@ -7,7 +7,7 @@ import { NinjaCat } from "@app/core/ninja-cats/models";
   providedIn: 'root'
 })
 export class NinjaCatService {
-  ninjaCats = [{
+  ninjaCats: NinjaCat[] = [{
     id: "1",
     name: 'Leo',
     age: 11,
@@ -35,7 +35,7 @@ export class NinjaCatService {
     weapon: 'bo staff',
   }];
 
-  getCats(ninjaCats?: NinjaCat[]) {
+  getCats(ninjaCats?: NinjaCat[]): Observable<NinjaCat[]> {
     const cats = ninjaCats ?? this.ninjaCats;
 
     return of(cats).pipe(delay(2000), take(1));

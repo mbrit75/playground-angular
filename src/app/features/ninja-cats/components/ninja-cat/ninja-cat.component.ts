@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { NinjaCatStore } from '@app/core/ninja-cats/infrastructure/repositories/store';
 
 @Component({
@@ -9,7 +9,8 @@ import { NinjaCatStore } from '@app/core/ninja-cats/infrastructure/repositories/
   styleUrl: './ninja-cat.component.css',
   standalone: true,
 })
-export class NinjaCatComponent {
+export class NinjaCatComponent implements OnInit {
+
   readonly ninjaCatStore = inject(NinjaCatStore);
 
   get ninjaCats() {
@@ -20,23 +21,27 @@ export class NinjaCatComponent {
   }
 
   get isLoading() {
-    return this.ninjaCatStore.isLoading();
+    return this.ninjaCatStore?.isLoading();
   }
 
   get youngestNinjaCats() {
     return this.ninjaCatStore.youngestNinjaCat();
   }
 
-  changeCatForOwner() {
-    this.ninjaCatStore.updateOwner({id: "3", fullname: "toz", age: 5, ninjaCatsId: [1] });
-      // this.ninjaCatStore.updateOwner('Mob');
+  ngOnInit(): void {
+    this.ninjaCatStore.loadNinjaCats();
   }
 
-
-  // addNinjaCat(newNinjaCat: any) {
-  //   this.ninjaCatStore.updateState((state) => ({
-  //     ...state,
-  //     ninjaCat: [...state.ninjaCat, newNinjaCat],
-  //   }));
-  // }
+  changeOwner() {
+    this.ninjaCatStore.updateOwner({id: "3", fullname: "toz", age: 5, ninjaCatsId: ["1"] });
+  }
+  changeNinjaCat() {
+    this.ninjaCatStore.updateNinjaCat({ id: "1",
+      name: 'Beru',
+      age: 2,
+      breed: 'Maine Coon',
+      color: 'white',
+      personality: 'curious',
+      weapon: 'nunchaku', });
+  }
 }

@@ -5,46 +5,49 @@ import { NinjaCatService } from '../api';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { debounceTime, distinctUntilChanged, pipe, switchMap, tap } from 'rxjs';
 import { tapResponse } from '@ngrx/operators';
-
+type Owner = {id: string, fullname: string, age: number, ninjaCatsId: string[]};
 type NinjaCatState = {
   ninjaCats: NinjaCat[];
   isLoading: boolean;
-  owner: {id: string, fullname: string, age: number, ninjaCatsId: number[]}; // todo si owner est null, on peut pas faire de signal
+  owner: Owner; // TODO si owner est null, on peut pas faire de signal
 };
 
 const initialState: NinjaCatState = {
   ninjaCats: [],
-  owner: { id: "1", fullname: "Mob", age: 24, ninjaCatsId: [1, 2, 3]},
+  owner: { id: "1", fullname: "Mob", age: 24, ninjaCatsId: ["1", "2", "3"]},
   isLoading: false,
 };
 
 export const NinjaCatStore = signalStore(
   {providedIn: 'root'},
   withState(initialState),
-  withComputed(({ ninjaCats }) => ({
+  withComputed(({ ninjaCats, owner }) => ({
     ninjaCatsCount: computed(() => ninjaCats().length),
     youngestNinjaCat: computed(() => {
       return ninjaCats().filter((ninjaCat) => ninjaCat.age === Math.min(...ninjaCats().map((ninjaCat) => ninjaCat.age)))[0];
+    }),
+    ninjaCatsNamesForOwner: computed(() => {
+      return ninjaCats().filter((ninjaCat) => owner().ninjaCatsId.includes(ninjaCat.id));
     }),
   })),
   withProps(() => ({
     ninjaCatsService: inject(NinjaCatService),
   })),
   withMethods(({ninjaCatsService, ...store}) => ({
-    //! === Reducers + Effects ===
-    updateOwner(newOwner: {id: string, fullname: string, age: number, ninjaCatsId: number[]}): void {
-      patchState(store, (state) => ({ owner:  newOwner } ));
+    updateOwner(newOwner: {id: string, fullname: string, age: number, ninjaCatsId: string[]}): void {
+     console.log('updateOwner', newOwner);
+      patchState(store, (_state) => ({ owner:  newOwner } ));
     },
-    updateNinjaCats(ninjaCat: NinjaCat): void {
-      patchState(store, (state) => ({ ninjaCats: [ ...state.ninjaCats, ninjaCat ] }));
+    updateNinjaCat(ninjaCat: NinjaCat): void {
+      patchState(store, (state) => {
+        const index = state.ninjaCats.findIndex((cat) => cat.id === ninjaCat.id);
+        if (index !== -1) {
+          state.ninjaCats[index] = { ...state.ninjaCats[index], ...ninjaCat };
+        }
+        return { ninjaCats: [ ...state.ninjaCats ] }
+      });
     },
-    // loadNinjaCats(): void {
-    //   patchState(store, () => ({ isLoading: true }));
-    //   ninjaCatsService.requestCats().subscribe((ninjaCats) => {
-    //     patchState(store, () => ({ ninjaCats, isLoading: false }));
-    //   });
-    // }
-    loadNinjaCats: rxMethod<string>(
+    loadNinjaCats: rxMethod<void>(
       pipe(
         debounceTime(300),
         distinctUntilChanged(),
@@ -62,7 +65,15 @@ export const NinjaCatStore = signalStore(
         })
       )
     ),
-
+    deleteNinjaCat(id: string): void {
+      patchState(store, (state) => {
+        const index = state.ninjaCats.findIndex((cat) => cat.id === id);
+        if (index !== -1) {
+          state.ninjaCats.splice(index, 1);
+        }
+        return { ninjaCats: [ ...state.ninjaCats ] }
+      });
+    }
   })),
 
 );
